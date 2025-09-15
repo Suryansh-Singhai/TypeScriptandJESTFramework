@@ -62,9 +62,21 @@ export class TaskManager{
         logger.info(`Task '${title}' added successfully with status Incomplete.`)
     }
 
+    getTaskId(title: string): number{
+        const task: Task = this.tasks.find(task => task.title === title);
+        if(task === undefined) throw new Error('no such task exists');
+        return task.id;
+    }
+
+    getTaskStatus(title: string): boolean{
+        const task: Task = this.tasks.find(task => task.title === title);
+        if(task === undefined) throw new Error('no such task exists');
+        return task.isCompleted;
+    }
+
     markTaskAsComplete(id: number): void{
         if(typeof id !== 'number') logger.error('id should be a valid number.')
-        this.tasks[id].isCompleted = true;
+        this.tasks[id-1].isCompleted = true;
         logger.info(`Marked task ${id} as completed.`)
     }
 }

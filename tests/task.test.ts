@@ -13,7 +13,34 @@ jest.mock('../src/api', ()=>(
     }
 ))
 
-describe('Task Manager', ()=>{
+describe('Task Manager - Add and UpdateStatus', ()=>{
+    let taskmanager: TaskManager;
+
+    beforeEach(()=>{
+        taskmanager = new TaskManager();
+        jest.clearAllMocks;
+    })
+
+    test('Testing addTask functionality - positive', ()=> {
+        const spy = jest.spyOn(logger, 'info');
+        taskmanager.addTask('task1');
+        expect(spy).toHaveBeenCalled();
+        expect(taskmanager.getTaskId('task1')).toEqual(1);
+        expect(taskmanager.getTaskStatus('task1')).toEqual(false);
+    })
+
+    // test('Testing updateStatus functionality', ()=> {
+    //     const spy = jest.spyOn(logger, 'info');
+    //     taskmanager.addTask('task1');
+    //     expect(taskmanager.getTaskStatus('task1')).toEqual(false);
+    //     const id = taskmanager.getTaskId('task1');
+    //     taskmanager.markTaskAsComplete(id);
+    //     expect(taskmanager.getTaskStatus('task1')).toEqual(true);
+    //     expect(spy).toHaveBeenCalled();
+    // })
+})
+
+describe('Task Manager - Mock APIs', ()=>{
     let taskmanager: TaskManager;
 
     beforeAll(()=>{

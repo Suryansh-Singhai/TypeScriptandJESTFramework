@@ -8,7 +8,7 @@ export const fetchAPI = {
             {id: 4, title: 'fourthTask', isCompleted: true}
         ] as Task[],
 
-        idCounter: 5,
+        idCounter: 1,
 
         async fetchAllTasks(status: string): Promise<Task[]>{
             if(status === 'FAIL') throw new Error('failed to fetch all tasks')
