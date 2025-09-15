@@ -4,6 +4,7 @@
   "description": "",
   "main": "jest.config.js",
   "scripts": {
+    "clean": "rm -rf dist tests/*.js",
     "test": "jest",
     "build": "tsc"
   },
