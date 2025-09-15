@@ -11,28 +11,48 @@ export class TaskManager{
     private tasks: Task[] = [];
     private static idCounter: number = 1;
     
-    async loadAllTasks(): Promise<Task[]>{
-        logger.info('Loading Tasks');
-        this.tasks = await fetchAPI.fetchAllTasks();
-        return this.tasks;
+    async loadAllTasks(arg: string): Promise<Task[]>{
+        try {
+            logger.info('Loading Tasks');
+            this.tasks = await fetchAPI.fetchAllTasks(arg);
+            return this.tasks;
+        } catch (error) {
+            logger.error(error.message);
+            throw error;
+        }
     }
 
-    async loadLatestTask(): Promise<Task>{
-        logger.info('Loading Latest Task');
-        const task: Task = await fetchAPI.fetchLatestTask();
-        return task;
+    async loadLatestTask(arg: string): Promise<Task>{
+        try {
+            logger.info('Loading Latest Task');
+            const task: Task = await fetchAPI.fetchLatestTask(arg);
+            return task;
+        } catch (error) {
+            logger.error(error.message);
+            throw error;
+        }   
     }
 
-    async loadCompletedTasks(): Promise<Task[]>{
-        logger.info('Loading Completed Tasks');
-        const completedTasks: Task[] = await fetchAPI.fetchCompletedTasks();
-        return completedTasks;
-    
+    async loadCompletedTasks(arg: string): Promise<Task[]>{
+        try {
+            logger.info('Loading Completed Tasks');
+            const completedTasks: Task[] = await fetchAPI.fetchCompletedTasks(arg);
+            return completedTasks;
+        } catch (error) {
+            logger.error(error.message);
+            throw error;
+        }
+        
     }
-    async loadIncompleteTasks(): Promise<Task[]>{
-        logger.info('Loading Incomplete Tasks');
-        const incompleteTasks: Task[] = await fetchAPI.fetchIncompleteTasks();
-        return incompleteTasks;
+    async loadIncompleteTasks(arg: string): Promise<Task[]>{
+        try {
+            logger.info('Loading Incomplete Tasks');
+            const incompleteTasks: Task[] = await fetchAPI.fetchIncompleteTasks(arg);
+            return incompleteTasks;
+        } catch (error) {
+            logger.error(error.message);
+            throw error;
+        }
     }
 
     addTask(title: string): void{

@@ -1,30 +1,32 @@
 import {Task} from './task'
 
 export const fetchAPI = {
-    async fetchAllTasks(): Promise<Task[]>{
-        return [
+        tasks: [
             {id: 1, title: 'firstTask', isCompleted: true},
             {id: 2, title: 'secondTask', isCompleted: false},
             {id: 3, title: 'thirdTask', isCompleted: false},
             {id: 4, title: 'fourthTask', isCompleted: true}
-        ]
-    },
+        ] as Task[],
 
-    async fetchLatestTask(): Promise<Task>{
-        return {id: 4, title: 'fourthTask', isCompleted: true};
-    },
+        idCounter: 5,
 
-    async fetchIncompleteTasks(): Promise<Task[]> {
-        return [
-            {id: 2, title: 'secondTask', isCompleted: false},
-            {id: 3, title: 'thirdTask', isCompleted: false}
-        ];
-    },
+        async fetchAllTasks(status: string): Promise<Task[]>{
+            if(status === 'FAIL') throw new Error('failed to fetch all tasks')
+            return this.tasks;
+        },
 
-    async fetchCompletedTasks(): Promise<Task[]> {
-        return [
-            {id: 1, title: 'firstTask', isCompleted: true},
-            {id: 4, title: 'fourthTask', isCompleted: true}
-        ];
+        async fetchLatestTask(status: string): Promise<Task>{
+            if(status === 'FAIL') throw new Error('failed to fetch latest task')
+            return this.tasks[this.idCounter-1];
+        },
+
+        async fetchIncompleteTasks(status: string): Promise<Task[]> {
+            if(status === 'FAIL') throw new Error('failed to fetch incomplete tasks')
+            return this.tasks.filter((task: Task) => task.isCompleted === false);
+        },
+
+        async fetchCompletedTasks(status: string): Promise<Task[]> {
+            if(status === 'FAIL') throw new Error('failed to fetch completed tasksx')
+            return this.tasks.filter((task: Task) => task.isCompleted === true);
+        }
     }
-}

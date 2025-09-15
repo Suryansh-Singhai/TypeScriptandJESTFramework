@@ -6,6 +6,6 @@ export const logger = {
     },
 
     error(message: string): void{
-        console.error(`ERROR: ${error}`);
+        console.error(`ERROR: ${message}`);
     }
 }
