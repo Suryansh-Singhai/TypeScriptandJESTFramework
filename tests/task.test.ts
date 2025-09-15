@@ -1,6 +1,5 @@
 import { TaskManager } from "../src/task";
 import { fetchAPI } from "../src/api";
-import { after, before } from "node:test";
 import { logger } from "../src/logger";
 
 jest.mock('../src/api', ()=>(
@@ -17,7 +16,7 @@ jest.mock('../src/api', ()=>(
 describe('Task Manager', ()=>{
     let taskmanager: TaskManager;
 
-    before(()=>{
+    beforeAll(()=>{
         console.log('Started Task Manager Test Suite')
     })
 
@@ -30,11 +29,11 @@ describe('Task Manager', ()=>{
         jest.restoreAllMocks();
     })
 
-    after(()=>{
+    afterAll(()=>{
         console.log('Finished Task Manager Test Suite')
     })
 
-    test('Loading all Tasks', async ()=>{
+    test('Loading all Tasks - success', async ()=>{
         const mockTasks = [
             {id: 1, title: 'firstTask', isCompleted: true},
             {id: 2, title: 'secondTask', isCompleted: false},
@@ -50,7 +49,7 @@ describe('Task Manager', ()=>{
     })
 
 
-    test('Loading all Tasks', async ()=>{
+    test('Loading all Tasks - failure', async ()=>{
         (fetchAPI.fetchAllTasks as jest.Mock).mockRejectedValue(new Error("failed to fetch all tasks"));
         const spy = jest.spyOn(logger, 'error');
         await expect(taskmanager.loadAllTasks('FAIL')).rejects.toThrow("failed to fetch all tasks");
@@ -58,22 +57,22 @@ describe('Task Manager', ()=>{
         expect(spy).toHaveBeenCalled();
     })
 
-    test('Loading Latest Task', async ()=>{
+    test('Loading Latest Task - success', async ()=>{
         const mockLatestTask = 
             {id: 2, title: 'secondTask', isCompleted: false}
         ;
 
         (fetchAPI.fetchLatestTask as jest.Mock).mockResolvedValue(mockLatestTask);
         const spy = jest.spyOn(logger, 'info');
-        const result = await taskmanager.loadAllTasks('TRUE');
-        expect(fetchAPI.fetchAllTasks).toHaveBeenCalled();
+        const result = await taskmanager.loadLatestTask('TRUE');
+        expect(fetchAPI.fetchLatestTask).toHaveBeenCalled();
         expect(logger.info).toHaveBeenCalled();
         expect(spy).toHaveBeenCalled();
         expect(result).toEqual(mockLatestTask);
     })
 
 
-    test('Loading Latest Task', async ()=>{
+    test('Loading Latest Task - failure', async ()=>{
         (fetchAPI.fetchLatestTask as jest.Mock).mockRejectedValue(new Error("failed to fetch all tasks"));
         const spy = jest.spyOn(logger, 'error');
         await expect(taskmanager.loadLatestTask('FAIL')).rejects.toThrow("failed to fetch all tasks");
@@ -81,7 +80,7 @@ describe('Task Manager', ()=>{
         expect(spy).toHaveBeenCalled();
     })
 
-    test('Loading Incomplete Tasks', async ()=>{
+    test('Loading Incomplete Tasks - success', async ()=>{
         const mockTasks = [
             {id: 1, title: 'firstTask', isCompleted: false},
             {id: 2, title: 'secondTask', isCompleted: false},
@@ -89,7 +88,7 @@ describe('Task Manager', ()=>{
 
         (fetchAPI.fetchIncompleteTasks as jest.Mock).mockResolvedValue(mockTasks);
         const spy = jest.spyOn(logger, 'info');
-        const result = await taskmanager.loadAllTasks('TRUE');
+        const result = await taskmanager.loadIncompleteTasks('TRUE');
         expect(fetchAPI.fetchIncompleteTasks).toHaveBeenCalled();
         expect(logger.info).toHaveBeenCalled();
         expect(spy).toHaveBeenCalled();
@@ -97,7 +96,7 @@ describe('Task Manager', ()=>{
     })
 
 
-    test('Loading Incomplete Tasks', async ()=>{
+    test('Loading Incomplete Tasks - failure', async ()=>{
         (fetchAPI.fetchIncompleteTasks as jest.Mock).mockRejectedValue(new Error("failed to fetch all tasks"));
         const spy = jest.spyOn(logger, 'error');
         await expect(taskmanager.loadIncompleteTasks('FAIL')).rejects.toThrow("failed to fetch all tasks");
@@ -105,7 +104,7 @@ describe('Task Manager', ()=>{
         expect(spy).toHaveBeenCalled();
     })
 
-    test('Loading Completed Tasks', async ()=>{
+    test('Loading Completed Tasks - success', async ()=>{
         const mockTasks = [
             {id: 1, title: 'firstTask', isCompleted: true},
             {id: 2, title: 'secondTask', isCompleted: true},
@@ -121,7 +120,7 @@ describe('Task Manager', ()=>{
     })
 
 
-    test('Loading completed Tasks', async ()=>{
+    test('Loading completed Tasks - failure', async ()=>{
         (fetchAPI.fetchCompletedTasks as jest.Mock).mockRejectedValue(new Error("failed to fetch all tasks"));
         const spy = jest.spyOn(logger, 'error');
         await expect(taskmanager.loadCompletedTasks('FAIL')).rejects.toThrow("failed to fetch all tasks");
