@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [Day5]
+    branches: miniproject
   pull_request:
-    branches: [Day5]
+    branches: miniproject
 
 jobs:
   build-and-test:
