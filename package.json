@@ -5,7 +5,7 @@
   "main": "jest.config.js",
   "scripts": {
     "clean": "rm -rf dist tests/*.js",
-    "test": "jest",
+    "test": "jest --verbose",
     "build": "tsc"
   },
   "engines": {

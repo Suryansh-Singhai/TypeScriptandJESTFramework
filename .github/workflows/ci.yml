@@ -1,8 +1,8 @@
 on:
   push:
-    branches: miniproject
+    branches: CapstoneProject
   pull_request:
-    branches: miniproject
+    branches: CapstoneProject
 
 jobs:
   build-and-test:
